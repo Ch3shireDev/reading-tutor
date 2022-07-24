@@ -1,6 +1,9 @@
-class ITextService{
-    getCurrentWord(){}
-    nextWord(){}
+class ITextService {
+    getCurrentWord() {
+    }
+
+    nextWord() {
+    }
 }
 
 

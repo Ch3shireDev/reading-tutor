@@ -9,11 +9,8 @@ class SpeechRecognition {
 
         this.requestConfig = {
             config: {
-                encoding: this.encoding,
-                sampleRateHertz: this.sampleRateHertz,
-                languageCode: this.languageCode,
-            },
-            interimResults: true,
+                encoding: this.encoding, sampleRateHertz: this.sampleRateHertz, languageCode: this.languageCode,
+            }, interimResults: true,
         };
     }
 
@@ -23,10 +20,9 @@ class SpeechRecognition {
             .streamingRecognize(this.requestConfig)
             .on("error", console.error)
             .on("data", (data) => {
-                    const text = JSON.stringify(data.results[0].alternatives[0].transcript, null, 2);
-                    console.log(text);
-                }
-            );
+                const text = JSON.stringify(data.results[0].alternatives[0].transcript, null, 2);
+                console.log(text);
+            });
 
     }
 }

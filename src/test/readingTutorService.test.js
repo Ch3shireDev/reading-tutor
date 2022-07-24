@@ -1,42 +1,60 @@
 import {ReadingTutorService} from '../main/library/ReadingTutorService';
 import {MockTextService} from './mockups/mockTextService'
 import {MockViewService} from './mockups/mockViewService'
+import {MockWordReceiverService} from "./mockups/mockWordReceiverService";
 
 let readingTutorService;
 let textService;
 let viewService;
+let wordReceiverService;
 
 beforeEach(() => {
     textService = new MockTextService('word1', 'word2', 'word3');
     viewService = new MockViewService();
-    readingTutorService = new ReadingTutorService(textService, viewService);
+    wordReceiverService = new MockWordReceiverService();
+    readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
+    expect(readingTutorService.isRunning()).toBe(false);
+    readingTutorService.start();
 });
 
 test('ReadingTutorService starts running', () => {
-    expect(readingTutorService.isRunning()).toBe(false);
-    readingTutorService.start();
     expect(readingTutorService.isRunning()).toBe(true);
 })
 
 test('ReadingTutorService ends running', () => {
-    readingTutorService.start();
     expect(readingTutorService.isRunning()).toBe(true);
     readingTutorService.end();
     expect(readingTutorService.isRunning()).toBe(false);
 })
 
 test('ReadingTutorService gets message that word was read correctly', () => {
-    readingTutorService.start();
     expect(textService.getCurrentWord()).toBe('word1');
     readingTutorService.acceptWord();
     expect(textService.getCurrentWord()).toBe('word2');
 });
 
-test('After accepting new word, ReadingTutorService sends notification to view about update', ()=>{
-    readingTutorService.start();
+test('After accepting new word, ReadingTutorService sends notification to view about update', () => {
     expect(textService.getCurrentWord()).toBe('word1');
     expect(viewService.getCurrentWordIndex()).toBe(0);
     readingTutorService.acceptWord();
     expect(textService.getCurrentWord()).toBe('word2');
     expect(viewService.getCurrentWordIndex()).toBe(1);
+});
+
+test('When WordReceiverService receives correct from stream, ReadingTutorService is notified and word is changed.', () => {
+    expect(textService.getCurrentWord()).toBe('word1');
+    wordReceiverService.receiveWords('word1');
+    expect(textService.getCurrentWord()).toBe('word2');
+});
+
+test('If WordReceiverService receives more than one correct word, ReadingTutorService is notified and word is changed accordingly.', () => {
+    expect(textService.getCurrentWord()).toBe('word1');
+    wordReceiverService.receiveWords('word1', 'word2');
+    expect(textService.getCurrentWord()).toBe('word3');
+});
+
+test('WordReceiverService starts and ends together with ReadingTutorService', () => {
+    expect(wordReceiverService.isRunning()).toBe(true);
+    readingTutorService.end();
+    expect(wordReceiverService.isRunning()).toBe(false);
 });
