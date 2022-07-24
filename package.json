@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start-typescript",
+  "name": "reading-tutor",
   "version": "1.0.0",
-  "description": "A minimal Electron application written with Typescript",
+  "description": "Program for learning reading.",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -9,21 +9,14 @@
     "start": "npm run build && electron ./dist/main/main.js",
     "test": "jest"
   },
-  "repository": "https://github.com/electron/electron-quick-start-typescript",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo",
-    "typescript"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "repository": "https://github.com/Ch3shireDev/reading-tutor",
+  "keywords": [ ],
+  "author": "Ch3shireDev",
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-typescript": "^7.18.6",
+    "@google-cloud/speech": "^4.10.2",
     "@types/jest": "^28.1.6",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",

@@ -9,7 +9,7 @@ export class AudioCapture {
     }
 
     capture(): stream.Readable {
-        return recorder
+        const capturer = recorder
             .record({
                 sampleRateHertz: this.sampleRateHertz,
                 threshold: 0, //silence threshold
@@ -18,7 +18,11 @@ export class AudioCapture {
 
             })
             .stream()
-            .on("error", console.error)
+            .on("error", console.error);
+
+        console.log("Recording started");
+
+        return capturer;
     }
 }
 

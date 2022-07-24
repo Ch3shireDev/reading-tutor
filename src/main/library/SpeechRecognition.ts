@@ -1,8 +1,6 @@
-// const {SpeechClient} = require("@google-cloud/speech");
+import {SpeechClient} from '@google-cloud/speech';
 
-import SpeechClient from '@google-cloud/speech';
-
-class SpeechRecognition {
+export class SpeechRecognition {
     private readonly sampleRateHertz: number;
     private readonly encoding: string;
     private readonly languageCode: string;
@@ -20,7 +18,7 @@ class SpeechRecognition {
         };
     }
 
-    getRecognizeStream() {
+    getRecognizeStream(): any {
 
         return new SpeechClient()
             .streamingRecognize(this.requestConfig)
@@ -32,5 +30,3 @@ class SpeechRecognition {
 
     }
 }
-
-module.exports = {SpeechRecognition};
