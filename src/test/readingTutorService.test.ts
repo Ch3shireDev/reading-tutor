@@ -3,13 +3,13 @@ import {MockTextService} from './mockups/mockTextService'
 import {MockViewService} from './mockups/mockViewService'
 import {MockWordReceiverService} from "./mockups/mockWordReceiverService";
 
-let readingTutorService;
-let textService;
-let viewService;
-let wordReceiverService;
+let readingTutorService: ReadingTutorService = null;
+let textService: MockTextService = null;
+let viewService: MockViewService = null;
+let wordReceiverService: MockWordReceiverService = null;
 
 beforeEach(() => {
-    textService = new MockTextService('word1', 'word2', 'word3');
+    textService = new MockTextService(['word1', 'word2', 'word3']);
     viewService = new MockViewService();
     wordReceiverService = new MockWordReceiverService();
     readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
@@ -43,13 +43,13 @@ test('After accepting new word, ReadingTutorService sends notification to view a
 
 test('When WordReceiverService receives correct from stream, ReadingTutorService is notified and word is changed.', () => {
     expect(textService.getCurrentWord()).toBe('word1');
-    wordReceiverService.receiveWords('word1');
+    wordReceiverService.receiveWords(['word1']);
     expect(textService.getCurrentWord()).toBe('word2');
 });
 
 test('If WordReceiverService receives more than one correct word, ReadingTutorService is notified and word is changed accordingly.', () => {
     expect(textService.getCurrentWord()).toBe('word1');
-    wordReceiverService.receiveWords('word1', 'word2');
+    wordReceiverService.receiveWords(['word1', 'word2']);
     expect(textService.getCurrentWord()).toBe('word3');
 });
 

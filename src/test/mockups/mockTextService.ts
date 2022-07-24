@@ -1,8 +1,11 @@
-import {ITextService} from '../../main/library/ITextService.js'
+import {ITextService} from "../../main/library/ITextService"
 
-class MockTextService extends ITextService{
+export class MockTextService extends ITextService{
 
-    constructor(...words) {
+    words:string[];
+    index:number;
+
+    constructor(words:string[]) {
         super();
         this.words = words;
         this.index = 0;
@@ -16,6 +19,3 @@ class MockTextService extends ITextService{
         this.index++;
     }
 }
-
-
-module.exports = {MockTextService};

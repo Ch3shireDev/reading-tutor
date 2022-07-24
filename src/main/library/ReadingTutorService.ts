@@ -1,9 +1,16 @@
-class ReadingTutorService {
+import {ITextService} from "./ITextService";
+import {IViewService} from "./IViewService";
+import {IWordReceiverService} from "./IWordReceiverService";
+
+export class ReadingTutorService {
 
     _isRunning = false;
     _currentIndex = 0;
+    private textService: ITextService;
+    private viewService: IViewService;
+    private wordReceiverService: IWordReceiverService;
 
-    constructor(textService, viewService, wordReceiverService) {
+    constructor(textService: ITextService, viewService: IViewService, wordReceiverService:IWordReceiverService) {
         this.textService = textService;
         this.viewService = viewService;
         this.wordReceiverService = wordReceiverService;
@@ -11,15 +18,15 @@ class ReadingTutorService {
 
     start() {
         this._isRunning = true;
-        let self = this;
+        const self = this;
         this.wordReceiverService.setOnWordsReceive((words) => {
             self.onWordsReceived(words)
         });
         this.wordReceiverService.start();
     }
 
-    onWordsReceived(words) {
-        words.forEach(word => {
+    onWordsReceived(words:string[]) {
+        words.forEach((word:string) => {
             if (word === this.textService.getCurrentWord()) {
                 this.acceptWord();
             }

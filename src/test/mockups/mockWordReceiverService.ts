@@ -1,7 +1,10 @@
 import {IWordReceiverService} from '../../main/library/IWordReceiverService';
 import {EventEmitter} from 'node:events';
 
-class MockWordReceiverService extends IWordReceiverService {
+export class MockWordReceiverService extends IWordReceiverService {
+    private eventEmitter: any;
+    private _isRunning: boolean;
+
     constructor() {
         super();
         this.eventEmitter = new EventEmitter();
@@ -16,11 +19,11 @@ class MockWordReceiverService extends IWordReceiverService {
         this._isRunning = false;
     }
 
-    receiveWords(...words) {
+    receiveWords(words: string[]) {
         this.eventEmitter.emit('receive-words', words);
     }
 
-    setOnWordsReceive(eventFunc){
+    setOnWordsReceive(eventFunc: (words: string[]) => void) {
         this.eventEmitter.on('receive-words', eventFunc);
     }
 
@@ -28,5 +31,3 @@ class MockWordReceiverService extends IWordReceiverService {
         return this._isRunning;
     }
 }
-
-module.exports = {MockWordReceiverService};

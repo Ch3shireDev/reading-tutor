@@ -1,13 +1,13 @@
-const recorder = require("node-record-lpcm16");
+import * as recorder from "node-record-lpcm16";
 
-class AudioCapture {
+export class AudioCapture {
     sampleRateHertz;
 
     constructor() {
         this.sampleRateHertz = 16000;
     }
 
-    capture() {
+    capture(): any {
         return recorder
             .record({
                 sampleRateHertz: this.sampleRateHertz,
