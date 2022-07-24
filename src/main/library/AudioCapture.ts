@@ -1,4 +1,5 @@
 import * as recorder from "node-record-lpcm16";
+import * as stream from "stream";
 
 export class AudioCapture {
     sampleRateHertz;
@@ -7,7 +8,7 @@ export class AudioCapture {
         this.sampleRateHertz = 16000;
     }
 
-    capture(): any {
+    capture(): stream.Readable {
         return recorder
             .record({
                 sampleRateHertz: this.sampleRateHertz,

@@ -1,25 +1,24 @@
 import {IViewService} from "../../main/library/IViewService";
 
-export class MockViewService extends IViewService {
+export class MockViewService implements IViewService {
     private wordData: null;
     private index: number;
 
     constructor() {
-        super();
         this.wordData = null;
         this.index = 0;
     }
 
 
     setWordCorrect(index: number): void {
-//
+        //
     }
 
-    setCurrentWordIndex(index: number) {
+    setCurrentWordIndex(index: number): void {
         this.index = index;
     }
 
-    getCurrentWordIndex() {
+    getCurrentWordIndex(): number {
         return this.index;
     }
 }

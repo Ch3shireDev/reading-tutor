@@ -10,39 +10,39 @@ export class ReadingTutorService {
     private viewService: IViewService;
     private wordReceiverService: IWordReceiverService;
 
-    constructor(textService: ITextService, viewService: IViewService, wordReceiverService:IWordReceiverService) {
+    constructor(textService: ITextService, viewService: IViewService, wordReceiverService: IWordReceiverService) {
         this.textService = textService;
         this.viewService = viewService;
         this.wordReceiverService = wordReceiverService;
     }
 
-    start() {
+    start(): void {
         this._isRunning = true;
-        const self = this;
+        // const self = this;
         this.wordReceiverService.setOnWordsReceive((words) => {
-            self.onWordsReceived(words)
+            this.onWordsReceived(words)
         });
         this.wordReceiverService.start();
     }
 
-    onWordsReceived(words:string[]) {
-        words.forEach((word:string) => {
+    onWordsReceived(words: string[]): void {
+        words.forEach((word: string) => {
             if (word === this.textService.getCurrentWord()) {
                 this.acceptWord();
             }
         });
     }
 
-    end() {
+    end(): void {
         this._isRunning = false;
         this.wordReceiverService.end();
     }
 
-    isRunning() {
+    isRunning(): boolean {
         return this._isRunning;
     }
 
-    acceptWord() {
+    acceptWord(): void {
         this.textService.nextWord();
         this.viewService.setWordCorrect(this._currentIndex);
         this._currentIndex++;

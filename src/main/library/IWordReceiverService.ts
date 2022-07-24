@@ -1,21 +1,11 @@
-export class IWordReceiverService {
-    start() {
-        //
-    }
+export interface IWordReceiverService {
+    start(): void;
 
-    end() {
-        //
-    }
+    end(): void;
 
-    receiveWords(words: string[]) {
-//
-    }
+    receiveWords(words: string[]): void;
 
-    setOnWordsReceive(eventFunc:(words: string[]) => void) {
-        //
-    }
+    setOnWordsReceive(eventFunc: (words: string[]) => void): void;
 
-    isRunning() {
-        //
-    }
+    isRunning(): boolean;
 }

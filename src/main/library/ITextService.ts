@@ -1,11 +1,6 @@
-export class ITextService {
-    getCurrentWord(): string {
+export interface ITextService {
+    getCurrentWord(): string;
 
-        return "";
-    }
-
-    nextWord() {
-        //
-    }
+    nextWord(): void;
 }
 

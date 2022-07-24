@@ -1,14 +1,8 @@
-export class IViewService{
+export interface IViewService {
 
-    setWordCorrect(index:number){
-        //
-    }
-    setCurrentWordIndex(index:number){
-        //
+    setWordCorrect(index: number): void;
 
-    }
-    getCurrentWordIndex(){
-        //
+    setCurrentWordIndex(index: number): void;
 
-    }
+    getCurrentWordIndex(): number;
 }

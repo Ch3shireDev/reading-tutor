@@ -1,12 +1,12 @@
 import {ReadingTutorService} from '../main/library/ReadingTutorService';
-import {MockTextService} from './mockups/mockTextService'
-import {MockViewService} from './mockups/mockViewService'
-import {MockWordReceiverService} from "./mockups/mockWordReceiverService";
+import {MockTextService} from './mockups/MockTextService'
+import {MockViewService} from './mockups/MockViewService'
+import {MockWordReceiverService} from "./mockups/MockWordReceiverService";
 
-let readingTutorService: ReadingTutorService = null;
-let textService: MockTextService = null;
-let viewService: MockViewService = null;
-let wordReceiverService: MockWordReceiverService = null;
+let readingTutorService: ReadingTutorService;
+let textService: MockTextService;
+let viewService: MockViewService;
+let wordReceiverService: MockWordReceiverService;
 
 beforeEach(() => {
     textService = new MockTextService(['word1', 'word2', 'word3']);

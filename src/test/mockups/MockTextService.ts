@@ -1,21 +1,20 @@
 import {ITextService} from "../../main/library/ITextService"
 
-export class MockTextService extends ITextService{
+export class MockTextService implements ITextService {
 
-    words:string[];
-    index:number;
+    words: string[];
+    index: number;
 
-    constructor(words:string[]) {
-        super();
+    constructor(words: string[]) {
         this.words = words;
         this.index = 0;
     }
 
-    getCurrentWord(){
+    getCurrentWord(): string {
         return this.words[this.index];
     }
 
-    nextWord(){
+    nextWord(): void {
         this.index++;
     }
 }

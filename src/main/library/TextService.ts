@@ -1,10 +1,11 @@
 import {ITextService} from "./ITextService"
 
-export class TextService extends ITextService{
-    getCurrentWord():string{
+export class TextService implements ITextService {
+    getCurrentWord(): string {
         return "";
     }
-    nextWord():string{
+
+    nextWord(): string {
         return "";
     }
 }

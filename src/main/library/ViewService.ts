@@ -1,19 +1,19 @@
 import {IViewService} from './IViewService';
 
-export class ViewService extends IViewService {
+export class ViewService implements IViewService {
     constructor() {
-        super()
-    }
-
-    setWordCorrect(index: number) {
         //
     }
 
-    setCurrentWordIndex(index: number) {
+    setWordCorrect(index: number): void {
         //
     }
 
-    getCurrentWordIndex() {
+    setCurrentWordIndex(index: number): void {
         //
+    }
+
+    getCurrentWordIndex(): number {
+        return 0;
     }
 }
