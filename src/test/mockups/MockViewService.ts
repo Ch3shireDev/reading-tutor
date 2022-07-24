@@ -1,4 +1,4 @@
-import {IViewService} from "../../main/library/IViewService";
+import {IViewService} from "../../main/library/view-services/IViewService";
 
 export class MockViewService implements IViewService {
     private wordData: null;
@@ -9,9 +9,8 @@ export class MockViewService implements IViewService {
         this.index = 0;
     }
 
-
     setWordCorrect(index: number): void {
-        //
+        this.index++;
     }
 
     setCurrentWordIndex(index: number): void {
@@ -21,6 +20,8 @@ export class MockViewService implements IViewService {
     getCurrentWordIndex(): number {
         return this.index;
     }
-}
 
-module.exports = {MockViewService};
+    setText(text: string): void {
+        //
+    }
+}

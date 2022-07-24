@@ -1,4 +1,4 @@
-import {IWordReceiverService} from '../../main/library/IWordReceiverService';
+import {IWordReceiverService} from '../../main/library/word-receivers/IWordReceiverService';
 import {EventEmitter} from 'node:events';
 
 export class MockWordReceiverService implements IWordReceiverService {
@@ -18,7 +18,7 @@ export class MockWordReceiverService implements IWordReceiverService {
         this._isRunning = false;
     }
 
-    receiveWords(words: string[]): void {
+    receiveWords(...words: string[]): void {
         this.eventEmitter.emit('receive-words', words);
     }
 

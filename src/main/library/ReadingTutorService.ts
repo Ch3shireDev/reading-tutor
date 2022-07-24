@@ -1,6 +1,6 @@
-import {ITextService} from "./ITextService";
-import {IViewService} from "./IViewService";
-import {IWordReceiverService} from "./IWordReceiverService";
+import {ITextService} from "./text-services/ITextService";
+import {IViewService} from "./view-services/IViewService";
+import {IWordReceiverService} from "./word-receivers/IWordReceiverService";
 
 export class ReadingTutorService {
 
@@ -18,7 +18,6 @@ export class ReadingTutorService {
 
     start(): void {
         this._isRunning = true;
-        // const self = this;
         this.wordReceiverService.setOnWordsReceive((words) => {
             this.onWordsReceived(words)
         });
@@ -43,7 +42,7 @@ export class ReadingTutorService {
     }
 
     acceptWord(): void {
-        this.textService.nextWord();
+        this.textService.acceptCurrentWord();
         this.viewService.setWordCorrect(this._currentIndex);
         this._currentIndex++;
         this.viewService.setCurrentWordIndex(this._currentIndex);

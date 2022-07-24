@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "strict": true,
+    "target": "ES6",
+
     "module": "commonjs",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+
     "noImplicitAny": true,
     "sourceMap": true,
     "outDir": "dist",
@@ -13,5 +18,6 @@
   "include": [
     "src/**/*",
     "decs.d.ts"
-  ]
+  ],
+  "typeRoots": ["./node_modules/@types", "./src/types"]
 }

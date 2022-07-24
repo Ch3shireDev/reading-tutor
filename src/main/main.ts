@@ -1,12 +1,17 @@
-import {app, BrowserWindow} from "electron";
+import {app, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
+import {ViewService} from "./library/view-services/ViewService";
+import {HostCommunicationService} from "./library/communication-services/HostCommunicationService";
+
+let mainWindow: BrowserWindow;
 
 function createWindow() {
     // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
+            nodeIntegration: true
         },
         width: 800,
     });
@@ -16,31 +21,29 @@ function createWindow() {
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
+
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on("ready", () => {
     createWindow();
 
     app.on("activate", function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
 });
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
 });
 
-import {AudioCapture} from "./library/AudioCapture";
-import {SpeechRecognition} from "./library/SpeechRecognition"
+ipcMain.on('send-click', (event) => {
+    console.log('click');
+    mainWindow.webContents.send('receive-click', "I was clicked")
+});
 
-new AudioCapture().capture().pipe(new SpeechRecognition().getRecognizeStream());
+ipcMain.on('start', (event) => {
+    const eventCommunicationService = new HostCommunicationService(mainWindow.webContents);
+    new ViewService(eventCommunicationService).setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.")
+});

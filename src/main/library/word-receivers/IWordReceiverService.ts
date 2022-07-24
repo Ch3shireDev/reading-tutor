@@ -3,7 +3,7 @@ export interface IWordReceiverService {
 
     end(): void;
 
-    receiveWords(words: string[]): void;
+    receiveWords(...words: string[]): void;
 
     setOnWordsReceive(eventFunc: (words: string[]) => void): void;
 
