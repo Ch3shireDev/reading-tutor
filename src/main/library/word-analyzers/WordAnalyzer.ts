@@ -1,6 +1,7 @@
-import {WordData} from "./WordData";
+import {WordData} from "../WordData";
+import {IWordAnalyzer} from "./IWordAnalyzer";
 
-export class WordAnalyzer {
+export class WordAnalyzer implements IWordAnalyzer {
 
     analyze(text: string): WordData[] {
 
@@ -11,10 +12,10 @@ export class WordAnalyzer {
 
         text.split(' ').forEach((word) => {
             if (this.isWord(word)) {
-                result.push(new WordData(word, this.clean(word), index));
+                result.push(new WordData(index, word, this.clean(word)));
                 index++;
             } else {
-                result.push(new WordData(word, '', -1));
+                result.push(new WordData(-1, word, ''));
             }
         });
 

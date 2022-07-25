@@ -1,20 +1,20 @@
 import {ICommunicationService} from "../../main/library/communication-services/ICommunicationService";
+import {EventEmitter} from "node:events";
 
-export class MockCommunicationService implements ICommunicationService{
-    sentMessages: any[];
-    private receivedMessages: any[];
+export class MockCommunicationService implements ICommunicationService {
+    private eventEmitter: EventEmitter;
 
     constructor() {
-        this.sentMessages = [];
-        this.receivedMessages = []
+        this.eventEmitter = new EventEmitter();
     }
 
-    receiveMessage(name: string, listener: (event: any) => void): void {
-        this.receivedMessages.push({name: name, listener: listener});
+    receiveMessage(name: string, listener: (event: any, ...data: any[]) => void): void {
+        this.eventEmitter.on(name, listener);
     }
 
-    sendMessage(name: string, data: any): void {
-        this.sentMessages.push({name: name, data: data});
+    sendMessage(name: string, ...data: any[]): void {
+        this.eventEmitter.emit(name, undefined, ...data);
     }
 
 }
+

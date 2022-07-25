@@ -1,4 +1,4 @@
-import {WordAnalyzer} from "../main/library/WordAnalyzer";
+import {WordAnalyzer} from "../main/library/word-analyzers/WordAnalyzer";
 
 const wordAnalyzer = new WordAnalyzer();
 

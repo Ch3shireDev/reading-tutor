@@ -4,7 +4,7 @@ export interface IViewService {
 
     setWordCorrect(index: number): void;
 
-    setCurrentWordIndex(index: number): void;
+    setCurrentWordHighlightIndex(index: number): void;
 
     getCurrentWordIndex(): number;
 }

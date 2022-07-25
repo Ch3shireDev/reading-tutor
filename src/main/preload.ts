@@ -1,38 +1,25 @@
 import {contextBridge, ipcRenderer} from 'electron'
+import {ViewClient} from "./library/view-services/ViewClient";
+import {HtmlElement} from "./library/elements/HtmlElement";
+import {ClientCommunicationService} from "./library/communication-services/ClientCommunicationService";
+import {HtmlManager} from "./library/view-services/HtmlManager";
 
 window.addEventListener("DOMContentLoaded", () => {
-    const replaceText = (selector: string, text: string) => {
-        const element = document.getElementById(selector);
-        if (element) {
-            element.innerText = text;
-        }
-    };
 
-    for (const type of ["chrome", "node", "electron"]) {
-        const text: string = process.versions[type as keyof NodeJS.ProcessVersions] ?? "";
-        replaceText(`${type}-version`, text);
+    const communicationService = new ClientCommunicationService(ipcRenderer);
+    const viewClient = new ViewClient(communicationService, new HtmlElement('text'), new HtmlManager(document));
+    viewClient.start();
+    const buttonElement = document.getElementById('button');
+    if (buttonElement !== null) {
+        buttonElement.addEventListener('click', () => {
+            viewClient.nextWord();
+        });
     }
 });
 
-import {ViewClient} from "./library/view-services/ViewClient";
-import {HtmlElement} from "./library/elements/HtmlElement";
-
-function init(window:any){
-
-    window.electronAPI.setText((event: any, text: string) => {
-        const viewClient = new ViewClient(new HtmlElement('text'));
-        viewClient.setText(text);
-    });
-
-    window.electronAPI.start();
-
-}
-
 contextBridge.exposeInMainWorld('electronAPI', {
-    start: (event: any) => ipcRenderer.send('start', event),
     sendClick: (event: any) => ipcRenderer.send('send-click', event),
     setText: (callback: any) => ipcRenderer.on('set-text', callback),
     receiveClick: (callback: any) => ipcRenderer.on('receive-click', callback),
-    init: (window:any) => init(window)
 });
 

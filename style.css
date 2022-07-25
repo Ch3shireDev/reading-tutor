@@ -1,0 +1,11 @@
+
+.highlight {
+    font-weight: 700;
+}
+
+.word{
+}
+
+.word::after{
+    content: " ";
+}

@@ -2,6 +2,7 @@ import {app, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
 import {ViewService} from "./library/view-services/ViewService";
 import {HostCommunicationService} from "./library/communication-services/HostCommunicationService";
+import {WordAnalyzer} from "./library/word-analyzers/WordAnalyzer";
 
 let mainWindow: BrowserWindow;
 
@@ -39,11 +40,13 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on('send-click', (event) => {
-    console.log('click');
     mainWindow.webContents.send('receive-click', "I was clicked")
 });
 
 ipcMain.on('start', (event) => {
     const eventCommunicationService = new HostCommunicationService(mainWindow.webContents);
-    new ViewService(eventCommunicationService).setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.")
+    const wordAnalyzer = new WordAnalyzer();
+    const viewService = new ViewService(eventCommunicationService, wordAnalyzer);
+    viewService.setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.")
+    viewService.setCurrentWordHighlightIndex(0);
 });

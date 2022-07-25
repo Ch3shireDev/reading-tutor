@@ -10,6 +10,10 @@
     "start": "npm run build && electron ./dist/main/main.js",
     "test": "jest"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": ["/node_modules/", "/dist/"]
+  },
   "repository": "https://github.com/Ch3shireDev/reading-tutor",
   "keywords": [],
   "author": "Ch3shireDev",

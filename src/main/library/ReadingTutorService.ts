@@ -1,8 +1,9 @@
 import {ITextService} from "./text-services/ITextService";
 import {IViewService} from "./view-services/IViewService";
 import {IWordReceiverService} from "./word-receivers/IWordReceiverService";
+import {IReadingTutorService} from "./IReadingTutorService";
 
-export class ReadingTutorService {
+export class ReadingTutorService implements IReadingTutorService{
 
     _isRunning = false;
     _currentIndex = 0;
@@ -27,7 +28,7 @@ export class ReadingTutorService {
     onWordsReceived(words: string[]): void {
         words.forEach((word: string) => {
             if (word === this.textService.getCurrentWord()) {
-                this.acceptWord();
+                this.acceptCurrentWord();
             }
         });
     }
@@ -41,12 +42,14 @@ export class ReadingTutorService {
         return this._isRunning;
     }
 
-    acceptWord(): void {
+    acceptCurrentWord(): void {
         this.textService.acceptCurrentWord();
         this.viewService.setWordCorrect(this._currentIndex);
         this._currentIndex++;
-        this.viewService.setCurrentWordIndex(this._currentIndex);
+        this.viewService.setCurrentWordHighlightIndex(this._currentIndex);
+    }
+
+    getCurrentWordIndex(): number {
+        return this.textService.getCurrentIndex();
     }
 }
-
-module.exports = {ReadingTutorService};

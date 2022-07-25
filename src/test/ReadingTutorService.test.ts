@@ -29,14 +29,14 @@ test('ReadingTutorService ends running', () => {
 
 test('ReadingTutorService gets message that word was read correctly', () => {
     expect(textService.getCurrentWord()).toBe('word1');
-    readingTutorService.acceptWord();
+    readingTutorService.acceptCurrentWord();
     expect(textService.getCurrentWord()).toBe('word2');
 });
 
 test('After accepting new word, ReadingTutorService sends notification to view about update', () => {
     expect(textService.getCurrentWord()).toBe('word1');
     expect(viewService.getCurrentWordIndex()).toBe(0);
-    readingTutorService.acceptWord();
+    readingTutorService.acceptCurrentWord();
     expect(textService.getCurrentWord()).toBe('word2');
     expect(viewService.getCurrentWordIndex()).toBe(1);
 });

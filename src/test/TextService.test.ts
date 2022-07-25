@@ -1,10 +1,12 @@
 import {TextService} from "../main/library/text-services/TextService";
 import {ITextService} from "../main/library/text-services/ITextService";
+import {WordAnalyzer} from "../main/library/word-analyzers/WordAnalyzer";
 
 let textService: ITextService;
+const wordAnalyzer = new WordAnalyzer();
 
 beforeEach(() => {
-    textService = new TextService();
+    textService = new TextService(wordAnalyzer);
     textService.setText('Stoi na stacji lokomotywa, Ciężka, ogromna i pot z niej spływa: Tłusta oliwa.');
 });
 

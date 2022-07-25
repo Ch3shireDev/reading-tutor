@@ -1,16 +1,41 @@
 import {IHtmlElement} from "../elements/IHtmlElement";
-import {WordAnalyzer} from "../WordAnalyzer";
 import {WordData} from "../WordData";
+import {ICommunicationService} from "../communication-services/ICommunicationService";
+import {IHtmlManager} from "./IHtmlManager";
 
 export class ViewClient {
+    private wordData: WordData[];
+    private highlightIndex: number;
 
-    constructor(private textElement: IHtmlElement) {
+    constructor(private communicationService: ICommunicationService, private textElement: IHtmlElement, private htmlManager: IHtmlManager) {
+        this.communicationService.receiveMessage('set-word-data', (event: any, wordData: WordData[]) => this.setWordData(wordData));
+        this.communicationService.receiveMessage('set-current-word-highlight-index', (event: any, index: number) => this.setCurrentWordHighlightIndex(index));
+        this.wordData = [];
+        this.highlightIndex = -1;
     }
 
-    setText(text: string): void {
-        const wordsData: WordData[] = new WordAnalyzer().analyze(text);
-        const words = wordsData.map(this.getHtmlText);
+    nextWord(){
+        this.communicationService.sendMessage('next-word', '');
+    }
+
+    setCurrentWordHighlightIndex(index: number): void {
+        if (this.highlightIndex > -1) this.htmlManager.removeClass('word-' + this.highlightIndex, 'highlight');
+        this.highlightIndex = index;
+        if (this.highlightIndex > -1) this.htmlManager.addClass('word-' + this.highlightIndex, 'highlight');
+    }
+
+    getCurrentWordHighlightIndex(): number {
+        return this.highlightIndex;
+    }
+
+    setWordData(wordData: WordData[]): void {
+        this.wordData = wordData;
+        const words = wordData.map(this.getHtmlText);
         this.textElement.setHtmlContent(words.join(''));
+    }
+
+    getWordData(): WordData[] {
+        return this.wordData;
     }
 
     getHtmlText(wordData: WordData): string {
@@ -20,11 +45,14 @@ export class ViewClient {
 
         const index = wordData.index;
         if (index > -1) {
-            return `<span class="word" id="word-${index}" word="${(wordData.word)}">${text} </span>`;
+            return `<span class="word" id="word-${index}">${text}</span>`;
         } else {
             return `<span>${text}</span>`;
         }
     }
 
 
+    start() {
+        this.communicationService.sendMessage('start', '');
+    }
 }

@@ -13,7 +13,7 @@ export class MockViewService implements IViewService {
         this.index++;
     }
 
-    setCurrentWordIndex(index: number): void {
+    setCurrentWordHighlightIndex(index: number): void {
         this.index = index;
     }
 

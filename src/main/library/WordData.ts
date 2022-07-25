@@ -1,4 +1,7 @@
 export class WordData {
-    constructor(public text: string, public word: string, public index: number) {
+    constructor(public index: number, public text: string, public word: string="") {
+        if(word === ""){
+            this.word = text;
+        }
     }
 }
