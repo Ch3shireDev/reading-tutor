@@ -1,9 +1,11 @@
 import {IWordReceiverService} from '../../main/library/word-receivers/IWordReceiverService';
 import {EventEmitter} from 'node:events';
+import {IReadingTutorService} from "../../main/library/IReadingTutorService";
 
 export class MockWordReceiverService implements IWordReceiverService {
     private eventEmitter: EventEmitter;
     private _isRunning: boolean;
+    private readingTutorService: IReadingTutorService | null = null;
 
     constructor() {
         this.eventEmitter = new EventEmitter();
@@ -28,5 +30,9 @@ export class MockWordReceiverService implements IWordReceiverService {
 
     isRunning(): boolean {
         return this._isRunning;
+    }
+
+    setReadingTutorService(readingTutorService: IReadingTutorService): void {
+        this.readingTutorService = readingTutorService;
     }
 }

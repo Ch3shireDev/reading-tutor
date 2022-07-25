@@ -1,4 +1,5 @@
 import {ITextService} from "../../main/library/text-services/ITextService"
+import {WordData} from "../../main/library/WordData";
 
 export class MockTextService implements ITextService {
 
@@ -40,5 +41,9 @@ export class MockTextService implements ITextService {
 
     setIndex(index: number): void {
         this.index = index;
+    }
+
+    getText(): WordData[] {
+        return [];
     }
 }

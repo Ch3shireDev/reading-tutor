@@ -2,7 +2,9 @@ import {app, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
 import {ViewService} from "./library/view-services/ViewService";
 import {HostCommunicationService} from "./library/communication-services/HostCommunicationService";
-import {WordAnalyzer} from "./library/word-analyzers/WordAnalyzer";
+import {ReadingTutorService} from "./library/ReadingTutorService";
+import {TextService} from "./library/text-services/TextService";
+import {WordReceiverService} from "./library/word-receivers/WordReceiverService";
 
 let mainWindow: BrowserWindow;
 
@@ -23,6 +25,12 @@ function createWindow() {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
 
+    const eventCommunicationService = new HostCommunicationService(mainWindow.webContents);
+    const viewService = new ViewService(eventCommunicationService);
+    const textService = new TextService();
+    const wordReceiverService = new WordReceiverService();
+    const readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
+    readingTutorService.setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.");
 }
 
 app.on("ready", () => {
@@ -43,10 +51,3 @@ ipcMain.on('send-click', (event) => {
     mainWindow.webContents.send('receive-click', "I was clicked")
 });
 
-ipcMain.on('start', (event) => {
-    const eventCommunicationService = new HostCommunicationService(mainWindow.webContents);
-    const wordAnalyzer = new WordAnalyzer();
-    const viewService = new ViewService(eventCommunicationService, wordAnalyzer);
-    viewService.setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.")
-    viewService.setCurrentWordHighlightIndex(0);
-});

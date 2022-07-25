@@ -1,15 +1,14 @@
 import {ITextService} from "./ITextService"
-import {IWordAnalyzer} from "../word-analyzers/IWordAnalyzer";
+import {WordData} from "../WordData";
 
 export class TextService implements ITextService {
     private text: string;
     private words: string[];
     private index: number;
     private _isEnd: boolean;
-    private wordAnalyzer: IWordAnalyzer;
+    private wordData: WordData[] = [];
 
-    constructor(wordAnalyzer: IWordAnalyzer) {
-        this.wordAnalyzer = wordAnalyzer;
+    constructor() {
         this.text = "";
         this.words = [];
         this.index = 0;
@@ -38,18 +37,42 @@ export class TextService implements ITextService {
 
     setText(text: string): void {
         this.text = text;
-        this.words = text.split(" ").filter((word) => this.isWord(word)).map((word) => this.stripWord(word));
+        this.words = text.split(" ").filter((word) => this.isWord(word)).map((word) => this.clean(word));
         this.index = 0;
+        this.wordData = this.analyze(text);
+    }
+
+    getText(): WordData[] {
+        return this.wordData;
+    }
+
+    analyze(text: string): WordData[] {
+
+        const result: WordData[] = [];
+        let index = 0;
+
+        text = text.replace(/\n/g, ' \n ');
+
+        text.split(' ').forEach((word) => {
+            if (this.isWord(word)) {
+                result.push(new WordData(index, word, this.clean(word)));
+                index++;
+            } else {
+                result.push(new WordData(-1, word, ''));
+            }
+        });
+
+        return result;
+
+    }
+
+    clean(word: string): string {
+        return word.toLowerCase().replace(/[^a-ząęłżźćśó]/g, '');
     }
 
     isWord(word: string): boolean {
-        return this.wordAnalyzer.isWord(word);
+        return word.toLowerCase().replace(/[^a-ząęłżźćśó]/g, '').length > 0;
     }
-
-    stripWord(word: string): string {
-        return this.wordAnalyzer.clean(word);
-    }
-
 
     getCurrentIndex(): number {
         return 0;

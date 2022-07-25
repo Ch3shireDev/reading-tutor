@@ -14,7 +14,7 @@ export class ViewClient {
         this.highlightIndex = -1;
     }
 
-    nextWord(){
+    nextWord(): void {
         this.communicationService.sendMessage('next-word', '');
     }
 
@@ -52,7 +52,7 @@ export class ViewClient {
     }
 
 
-    start() {
+    start(): void {
         this.communicationService.sendMessage('start', '');
     }
 }

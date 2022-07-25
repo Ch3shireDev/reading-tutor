@@ -1,3 +1,5 @@
+import {WordData} from "../WordData";
+
 export interface ITextService {
     getCurrentWord(): string;
 
@@ -12,5 +14,7 @@ export interface ITextService {
     setIndex(index: number): void;
 
     isEnd(): boolean;
+
+    getText(): WordData[];
 }
 

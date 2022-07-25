@@ -1,3 +1,5 @@
+import {IReadingTutorService} from "../IReadingTutorService";
+
 export interface IWordReceiverService {
     start(): void;
 
@@ -8,4 +10,6 @@ export interface IWordReceiverService {
     setOnWordsReceive(eventFunc: (words: string[]) => void): void;
 
     isRunning(): boolean;
+
+    setReadingTutorService(readingTutorService: IReadingTutorService): void;
 }

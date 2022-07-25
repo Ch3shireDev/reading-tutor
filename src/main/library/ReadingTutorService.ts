@@ -3,7 +3,7 @@ import {IViewService} from "./view-services/IViewService";
 import {IWordReceiverService} from "./word-receivers/IWordReceiverService";
 import {IReadingTutorService} from "./IReadingTutorService";
 
-export class ReadingTutorService implements IReadingTutorService{
+export class ReadingTutorService implements IReadingTutorService {
 
     _isRunning = false;
     _currentIndex = 0;
@@ -15,6 +15,8 @@ export class ReadingTutorService implements IReadingTutorService{
         this.textService = textService;
         this.viewService = viewService;
         this.wordReceiverService = wordReceiverService;
+        viewService.setReadingTutorService(this);
+        wordReceiverService.setReadingTutorService(this);
     }
 
     start(): void {
@@ -23,6 +25,9 @@ export class ReadingTutorService implements IReadingTutorService{
             this.onWordsReceived(words)
         });
         this.wordReceiverService.start();
+
+        this.viewService.setText(this.textService.getText());
+        this.viewService.setCurrentWordHighlightIndex(0);
     }
 
     onWordsReceived(words: string[]): void {
@@ -51,5 +56,9 @@ export class ReadingTutorService implements IReadingTutorService{
 
     getCurrentWordIndex(): number {
         return this.textService.getCurrentIndex();
+    }
+
+    setText(text: string): void {
+        this.textService.setText(text);
     }
 }
