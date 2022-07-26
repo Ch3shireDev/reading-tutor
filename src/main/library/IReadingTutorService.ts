@@ -4,4 +4,6 @@ export interface IReadingTutorService {
     acceptCurrentWord(): void;
 
     getCurrentWordIndex(): number;
+
+    receiveWords(...strings: string[]): void;
 }

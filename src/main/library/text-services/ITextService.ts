@@ -1,4 +1,5 @@
 import {WordData} from "../WordData";
+import {IReadingTutorService} from "../IReadingTutorService";
 
 export interface ITextService {
     getCurrentWord(): string;
@@ -15,6 +16,10 @@ export interface ITextService {
 
     isEnd(): boolean;
 
-    getText(): WordData[];
+    getWordData(): WordData[];
+
+    receiveWords(...strings: string[]): void;
+
+    setReadingTutorService(readingTutorService: IReadingTutorService): void;
 }
 

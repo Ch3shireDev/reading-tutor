@@ -1,5 +1,6 @@
 import {ITextService} from "./ITextService"
 import {WordData} from "../WordData";
+import {IReadingTutorService} from "../IReadingTutorService";
 
 export class TextService implements ITextService {
     private text: string;
@@ -7,6 +8,7 @@ export class TextService implements ITextService {
     private index: number;
     private _isEnd: boolean;
     private wordData: WordData[] = [];
+    private readingTutorService?: IReadingTutorService;
 
     constructor() {
         this.text = "";
@@ -42,7 +44,7 @@ export class TextService implements ITextService {
         this.wordData = this.analyze(text);
     }
 
-    getText(): WordData[] {
+    getWordData(): WordData[] {
         return this.wordData;
     }
 
@@ -75,10 +77,27 @@ export class TextService implements ITextService {
     }
 
     getCurrentIndex(): number {
-        return 0;
+        return this.index;
     }
 
     getWordCount(): number {
         return this.words.length;
+    }
+
+    receiveWords(...words: string[]): void {
+        console.log(`received words: ${words}`);
+        words.forEach((word: string) => {
+            if (this.isCurrentWord(word)) {
+                this.acceptCurrentWord();
+            }
+        });
+    }
+
+    isCurrentWord(word: string): boolean {
+        return this.clean(word) === this.clean(this.getCurrentWord());
+    }
+
+    setReadingTutorService(readingTutorService: IReadingTutorService): void {
+        this.readingTutorService = readingTutorService;
     }
 }

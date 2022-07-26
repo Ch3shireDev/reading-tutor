@@ -1,7 +1,8 @@
 import * as recorder from "node-record-lpcm16";
 import * as stream from "stream";
+import {IAudioCapture} from "./IAudioCapture";
 
-export class AudioCapture {
+export class AudioCapture implements IAudioCapture {
     sampleRateHertz;
 
     constructor() {

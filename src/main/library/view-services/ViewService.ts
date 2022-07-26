@@ -14,17 +14,15 @@ export class ViewService implements IViewService {
 
     }
 
-    nextWord(): void {
-        this.index++;
-        this.setCurrentWordHighlightIndex(this.index);
-    }
-
     private start(): void {
-        console.log('start of view service')
         this._isRunning = true;
         if (this.readingTutorService != null) this.readingTutorService.start();
     }
 
+    nextWord(): void {
+        this.index++;
+        this.setCurrentWordHighlightIndex(this.index);
+    }
 
     setWordCorrect(index: number): void {
         //
@@ -35,7 +33,7 @@ export class ViewService implements IViewService {
     }
 
     getCurrentWordIndex(): number {
-        return 0;
+        return this.index;
     }
 
     setText(wordData: WordData[]): void {

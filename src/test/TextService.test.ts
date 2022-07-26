@@ -46,3 +46,12 @@ test('Text service should not go to the next word when acceptCurrentWord() is ca
     expect(textService.getCurrentWord()).toBe('oliwa')
     expect(textService.isEnd()).toBe(true);
 });
+
+test("Receiving correct words should trigger accepting current words.", ()=>{
+   textService.receiveWords("stoi", "na", "stacji");
+   expect(textService.getCurrentWord()).toBe("lokomotywa");
+   textService.receiveWords("lokomotywa");
+   expect(textService.getCurrentWord()).toBe("ciężka");
+   textService.receiveWords("cienszka");
+    expect(textService.getCurrentWord()).toBe("ciężka");
+});

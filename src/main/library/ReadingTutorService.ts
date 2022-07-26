@@ -2,6 +2,7 @@ import {ITextService} from "./text-services/ITextService";
 import {IViewService} from "./view-services/IViewService";
 import {IWordReceiverService} from "./word-receivers/IWordReceiverService";
 import {IReadingTutorService} from "./IReadingTutorService";
+import {WordData} from "./WordData";
 
 export class ReadingTutorService implements IReadingTutorService {
 
@@ -15,6 +16,7 @@ export class ReadingTutorService implements IReadingTutorService {
         this.textService = textService;
         this.viewService = viewService;
         this.wordReceiverService = wordReceiverService;
+        textService.setReadingTutorService(this);
         viewService.setReadingTutorService(this);
         wordReceiverService.setReadingTutorService(this);
     }
@@ -24,9 +26,10 @@ export class ReadingTutorService implements IReadingTutorService {
         this.wordReceiverService.setOnWordsReceive((words) => {
             this.onWordsReceived(words)
         });
+
         this.wordReceiverService.start();
 
-        this.viewService.setText(this.textService.getText());
+        this.viewService.setText(this.textService.getWordData());
         this.viewService.setCurrentWordHighlightIndex(0);
     }
 
@@ -48,10 +51,9 @@ export class ReadingTutorService implements IReadingTutorService {
     }
 
     acceptCurrentWord(): void {
+        this.viewService.setWordCorrect(this.textService.getCurrentIndex());
         this.textService.acceptCurrentWord();
-        this.viewService.setWordCorrect(this._currentIndex);
-        this._currentIndex++;
-        this.viewService.setCurrentWordHighlightIndex(this._currentIndex);
+        this.viewService.setCurrentWordHighlightIndex(this.textService.getCurrentIndex());
     }
 
     getCurrentWordIndex(): number {
@@ -60,5 +62,13 @@ export class ReadingTutorService implements IReadingTutorService {
 
     setText(text: string): void {
         this.textService.setText(text);
+    }
+
+    getWordData():WordData[] {
+        return this.textService.getWordData();
+    }
+
+    receiveWords(...words: string[]): void {
+        this.textService.receiveWords(...words);
     }
 }

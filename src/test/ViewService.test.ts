@@ -4,11 +4,23 @@ import {ViewClient} from "../main/library/view-services/ViewClient";
 import {MockElement} from "./mockups/MockElement";
 import {WordData} from "../main/library/WordData";
 import {MockHtmlManager} from "./mockups/MockHtmlManager";
+import {ReadingTutorService} from "../main/library/ReadingTutorService";
+import {MockWordReceiverService} from "./mockups/MockWordReceiverService";
+import {TextService} from "../main/library/text-services/TextService";
 
-const textElement = new MockElement();
-const communicationService = new MockCommunicationService();
-const viewClient = new ViewClient(communicationService, textElement, new MockHtmlManager());
-const viewService: ViewService = new ViewService(communicationService);
+let viewClient: ViewClient;
+let viewService: ViewService;
+let readingTutorService: ReadingTutorService;
+
+beforeEach(()=>{
+    const textElement = new MockElement();
+    const communicationService = new MockCommunicationService();
+    viewClient = new ViewClient(communicationService, textElement, new MockHtmlManager());
+    viewService = new ViewService(communicationService);
+    const textService: TextService = new TextService();
+    const viewReceiver: MockWordReceiverService = new MockWordReceiverService();
+    readingTutorService = new ReadingTutorService(textService, viewService, viewReceiver);
+});
 
 test('ViewService should start only after receiving start command from ViewClient.', () => {
     expect(viewService.isRunning()).toBe(false);
@@ -25,3 +37,29 @@ test('ViewService should be able to set current word highlight index in ViewClie
     viewService.setCurrentWordHighlightIndex(1);
     expect(viewClient.getCurrentWordHighlightIndex()).toBe(1);
 });
+
+test('ViewClient should initialize ViewService which initializes ReadingTutorService.', () => {
+    expect(viewService.isRunning()).toBe(false);
+    expect(readingTutorService.isRunning()).toBe(false);
+    viewClient.start();
+    expect(viewService.isRunning()).toBe(true);
+    expect(readingTutorService.isRunning()).toBe(true);
+});
+
+test('After start, ViewClient should receive words from ReadingTutorService through ViewService.', () => {
+    readingTutorService.setText("word1 word2 word3");
+    expect(readingTutorService.getWordData().length).toBe(3);
+    expect(viewClient.getWordData().length).toBe(0);
+    viewClient.start();
+    expect(viewClient.getWordData().length).toBe(3);
+});
+
+// test("Sending correct words to ReadingTutorService should trigger update.", () => {
+//     readingTutorService.setText("Stoi na stacji lokomotywa");
+//     viewClient.start();
+//     expect(viewService.getCurrentWordIndex()).toBe(0);
+//     expect(viewClient.getCurrentWordHighlightIndex()).toBe(0);
+//     readingTutorService.receiveWords('stoi');
+//     expect(viewService.getCurrentWordIndex()).toBe(1);
+//     expect(viewClient.getCurrentWordHighlightIndex()).toBe(1);
+// });

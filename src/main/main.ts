@@ -5,6 +5,8 @@ import {HostCommunicationService} from "./library/communication-services/HostCom
 import {ReadingTutorService} from "./library/ReadingTutorService";
 import {TextService} from "./library/text-services/TextService";
 import {WordReceiverService} from "./library/word-receivers/WordReceiverService";
+import {AudioCapture} from "./library/audio-capturers/AudioCapture";
+import {SpeechRecognition} from "./library/speech-recognizers/SpeechRecognition";
 
 let mainWindow: BrowserWindow;
 
@@ -28,7 +30,9 @@ function createWindow() {
     const eventCommunicationService = new HostCommunicationService(mainWindow.webContents);
     const viewService = new ViewService(eventCommunicationService);
     const textService = new TextService();
-    const wordReceiverService = new WordReceiverService();
+    const audioCapture = new AudioCapture();
+    const speechRecognition = new SpeechRecognition();
+    const wordReceiverService = new WordReceiverService(audioCapture, speechRecognition);
     const readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
     readingTutorService.setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.");
 }

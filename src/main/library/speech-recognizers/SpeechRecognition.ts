@@ -1,6 +1,7 @@
 import {SpeechClient} from '@google-cloud/speech';
+import {ISpeechRecognition} from "./ISpeechRecognition";
 
-export class SpeechRecognition {
+export class SpeechRecognition implements ISpeechRecognition {
     private readonly sampleRateHertz: number;
     private readonly encoding: string;
     private readonly languageCode: string;
@@ -19,14 +20,8 @@ export class SpeechRecognition {
     }
 
     getRecognizeStream(): any {
-
         return new SpeechClient()
             .streamingRecognize(this.requestConfig)
             .on("error", console.error)
-            .on("data", (data: any) => {
-                const text = JSON.stringify(data.results[0].alternatives[0].transcript, null, 2);
-                console.log(text);
-            });
-
     }
 }
