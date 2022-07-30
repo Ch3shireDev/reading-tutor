@@ -11,11 +11,13 @@ import {TextService} from "../main/library/text-services/TextService";
 let viewClient: ViewClient;
 let viewService: ViewService;
 let readingTutorService: ReadingTutorService;
+let htmlManager: MockHtmlManager;
 
-beforeEach(()=>{
+beforeEach(() => {
+    htmlManager = new MockHtmlManager();
     const textElement = new MockElement();
     const communicationService = new MockCommunicationService();
-    viewClient = new ViewClient(communicationService, textElement, new MockHtmlManager());
+    viewClient = new ViewClient(communicationService, textElement, htmlManager);
     viewService = new ViewService(communicationService);
     const textService: TextService = new TextService();
     const viewReceiver: MockWordReceiverService = new MockWordReceiverService();
@@ -54,12 +56,21 @@ test('After start, ViewClient should receive words from ReadingTutorService thro
     expect(viewClient.getWordData().length).toBe(3);
 });
 
-// test("Sending correct words to ReadingTutorService should trigger update.", () => {
-//     readingTutorService.setText("Stoi na stacji lokomotywa");
-//     viewClient.start();
-//     expect(viewService.getCurrentWordIndex()).toBe(0);
-//     expect(viewClient.getCurrentWordHighlightIndex()).toBe(0);
-//     readingTutorService.receiveWords('stoi');
-//     expect(viewService.getCurrentWordIndex()).toBe(1);
-//     expect(viewClient.getCurrentWordHighlightIndex()).toBe(1);
-// });
+test("Sending correct words to ReadingTutorService should trigger update.", () => {
+    readingTutorService.setText("Stoi na stacji lokomotywa");
+    viewClient.start();
+    expect(viewService.getCurrentWordIndex()).toBe(0);
+    expect(viewClient.getCurrentWordHighlightIndex()).toBe(0);
+    readingTutorService.receiveWords('stoi');
+    expect(viewService.getCurrentWordIndex()).toBe(1);
+    expect(viewClient.getCurrentWordHighlightIndex()).toBe(1);
+});
+
+test("ViewService and ViewClient should highlight correctly read words.", () => {
+    readingTutorService.setText("Stoi na stacji lokomotywa");
+    viewClient.start();
+    expect(viewClient.getCurrentWordHighlightIndex()).toBe(0);
+    readingTutorService.receiveWords('stoi');
+    expect(viewClient.getCurrentWordHighlightIndex()).toBe(1);
+    expect(htmlManager.getSet('word-0').has('correct')).toBeTruthy();
+});

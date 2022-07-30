@@ -13,7 +13,7 @@ export class MockViewService implements IViewService {
     }
 
     setWordCorrect(index: number): void {
-        this.index++;
+        // this.index++;
     }
 
     setCurrentWordHighlightIndex(index: number): void {

@@ -64,11 +64,12 @@ export class ReadingTutorService implements IReadingTutorService {
         this.textService.setText(text);
     }
 
-    getWordData():WordData[] {
+    getWordData(): WordData[] {
         return this.textService.getWordData();
     }
 
     receiveWords(...words: string[]): void {
+        console.log("Received words: " + JSON.stringify(words));
         this.textService.receiveWords(...words);
     }
 }

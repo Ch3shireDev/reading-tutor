@@ -9,7 +9,7 @@ export class WordReceiverService implements IWordReceiverService {
     private readingTutorService: IReadingTutorService | null = null;
     private _isRunning = false;
 
-    public constructor(private audioCapture:IAudioCapture, private speechRecognition:ISpeechRecognition) {
+    public constructor(private audioCapture: IAudioCapture, private speechRecognition: ISpeechRecognition) {
 
     }
 
@@ -18,7 +18,7 @@ export class WordReceiverService implements IWordReceiverService {
     }
 
     receiveWords(...words: string[]): void {
-        if(this.readingTutorService===null)return;
+        if (this.readingTutorService === null) return;
         this.readingTutorService.receiveWords(...words);
     }
 
@@ -29,9 +29,9 @@ export class WordReceiverService implements IWordReceiverService {
     start(): void {
         if (this._isRunning) return;
         this._isRunning = true;
-        this.audioCapture.capture().pipe(this.speechRecognition.getRecognizeStream()).on("data", (data:SpeechData) => {
-            data.results[0].alternatives.forEach((alternative:SpeechAlternative) => {
-                if(alternative.confidence < 0.5)return;
+        this.audioCapture.capture().pipe(this.speechRecognition.getRecognizeStream()).on("data", (data: SpeechData) => {
+            data.results[0].alternatives.forEach((alternative: SpeechAlternative) => {
+                // if (alternative.confidence < 0.1) return;
                 this.receiveWords(...alternative.transcript.split(" "));
             });
         });

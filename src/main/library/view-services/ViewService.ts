@@ -25,11 +25,12 @@ export class ViewService implements IViewService {
     }
 
     setWordCorrect(index: number): void {
-        //
+        this.communicationService.sendMessage('set-word-correct', index);
     }
 
     setCurrentWordHighlightIndex(index: number): void {
         this.communicationService.sendMessage('set-current-word-highlight-index', index);
+        this.index = index;
     }
 
     getCurrentWordIndex(): number {

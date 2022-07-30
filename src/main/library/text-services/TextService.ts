@@ -29,17 +29,14 @@ export class TextService implements ITextService {
         return this.words[this.index];
     }
 
-    acceptCurrentWord(): void {
-        if (this.index < this.words.length - 1) {
-            this.index++;
-        } else {
-            this._isEnd = true;
-        }
+    getNextWord(): string {
+        if (this.index >= this.words.length - 1) return '';
+        return this.words[this.index + 1];
     }
 
     setText(text: string): void {
         this.text = text;
-        this.words = text.split(" ").filter((word) => this.isWord(word)).map((word) => this.clean(word));
+        this.words = text.split(/[^a-ząężźćśół]+/i).filter((word) => this.isWord(word)).map((word) => this.clean(word));
         this.index = 0;
         this.wordData = this.analyze(text);
     }
@@ -84,20 +81,84 @@ export class TextService implements ITextService {
         return this.words.length;
     }
 
+    isCurrentWord(word: string): boolean {
+        return this.isCorrect(word, this.getCurrentWord());
+    }
+
+    setReadingTutorService(readingTutorService: IReadingTutorService): void {
+        this.readingTutorService = readingTutorService;
+    }
+
     receiveWords(...words: string[]): void {
-        console.log(`received words: ${words}`);
-        words.forEach((word: string) => {
+        words.forEach((word: string, index: number) => {
             if (this.isCurrentWord(word)) {
+                this.acceptCurrentWord();
+            } else if (this.isNextWordCorrect(words, index)) {
+                this.acceptCurrentWord();
+            } else if (this.isWordFragmented(words, index, this.clean(this.getCurrentWord()))) {
+                this.acceptCurrentWord();
+            } else if (this.isSkippingOneWord(word)) {
+                this.acceptCurrentWord();
                 this.acceptCurrentWord();
             }
         });
     }
 
-    isCurrentWord(word: string): boolean {
-        return this.clean(word) === this.clean(this.getCurrentWord());
+    isSkippingOneWord(word: string): boolean {
+        const nextWord = this.getNextWord();
+        return this.isCorrect(word, nextWord);
     }
 
-    setReadingTutorService(readingTutorService: IReadingTutorService): void {
-        this.readingTutorService = readingTutorService;
+    isWordFragmented(words: string[], index: number, word: string): boolean {
+        if (index >= words.length - 2) return false;
+        let fragmentedWord = words[index++];
+        while (fragmentedWord.length < word.length && index <= words.length - 1) {
+            fragmentedWord += words[index];
+            index++;
+            if (this.isCorrect(fragmentedWord, word)) return true;
+        }
+        return false;
+    }
+
+    isNextWordCorrect(words: string[], index: number): boolean {
+        if (index >= words.length - 1) return false;
+        const nextWord = words[index + 1];
+        return this.isWord(nextWord) && this.isCorrect(this.getNextWord(), nextWord);
+    }
+
+
+    isAlreadyRead(): boolean {
+        return this.index === this.indexBuffer;
+    }
+
+    setAlreadyRead(): void {
+        this.indexBuffer = this.index;
+    }
+
+    private indexBuffer = -1;
+
+    acceptCurrentWord(): void {
+        if (this.isAlreadyRead()) this.incrementIndex();
+        else {
+            this.setAlreadyRead();
+            if (this.readingTutorService) this.readingTutorService.acceptCurrentWord();
+            else this.acceptCurrentWord();
+        }
+    }
+
+    incrementIndex(): void {
+        if (this.index < this.words.length - 1) {
+            this.index++;
+        } else {
+            this._isEnd = true;
+        }
+    }
+
+    public isCorrect(testWord: string, correctWord: string): boolean {
+        const cleanTest = this.clean(testWord);
+        const cleanCorrect = this.clean(correctWord);
+        if (cleanTest === cleanCorrect) return true;
+        if (cleanTest.length > 5 && cleanCorrect.startsWith(cleanTest.substring(0, cleanTest.length - 2))) return true;
+        return false;
     }
 }

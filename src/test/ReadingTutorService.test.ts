@@ -2,6 +2,7 @@ import {ReadingTutorService} from '../main/library/ReadingTutorService';
 import {MockViewService} from './mockups/MockViewService'
 import {MockWordReceiverService} from "./mockups/MockWordReceiverService";
 import {TextService} from "../main/library/text-services/TextService";
+import Mock = jest.Mock;
 
 let readingTutorService: ReadingTutorService;
 let textService: TextService;
@@ -63,7 +64,34 @@ test('WordReceiverService starts and ends together with ReadingTutorService', ()
 test("Sending correct words to ReadingTutorService should trigger update.", () => {
     expect(textService.getCurrentWord()).toBe('worda');
     expect(viewService.getCurrentWordIndex()).toBe(0);
+    expect(readingTutorService.getCurrentWordIndex()).toBe(0);
     wordReceiverService.receiveWords('worda');
     expect(textService.getCurrentWord()).toBe('wordb');
     expect(viewService.getCurrentWordIndex()).toBe(1);
+    expect(readingTutorService.getCurrentWordIndex()).toBe(1);
+});
+
+test("Correct word can be also send to TextService.", () => {
+    expect(textService.getCurrentWord()).toBe('worda');
+    expect(viewService.getCurrentWordIndex()).toBe(0);
+    expect(readingTutorService.getCurrentWordIndex()).toBe(0);
+    textService.receiveWords('worda');
+    expect(readingTutorService.getCurrentWordIndex()).toBe(1);
+    expect(textService.getCurrentWord()).toBe('wordb');
+    expect(viewService.getCurrentWordIndex()).toBe(1);
+});
+
+test("There should not be a problem with sending another array of correct words to ReadingTutorService.", () => {
+    readingTutorService.setText("Stoi na stacji lokomotywa,\n" + "Ciężka, ogromna i pot z niej spływa:\n" + "Tłusta oliwa.")
+    expect(textService.getCurrentWord()).toBe('stoi');
+    expect(viewService.getCurrentWordIndex()).toBe(0);
+    expect(readingTutorService.getCurrentWordIndex()).toBe(0);
+    wordReceiverService.receiveWords('stoi', 'na', 'stacji', 'lokomotywa');
+    expect(textService.getCurrentWord()).toBe('ciężka');
+    expect(viewService.getCurrentWordIndex()).toBe(4);
+    expect(readingTutorService.getCurrentWordIndex()).toBe(4);
+    wordReceiverService.receiveWords('ciężka', 'ogromna', 'i', 'pot', 'z', 'niej', 'spływa');
+    expect(textService.getCurrentWord()).toBe('tłusta');
+    expect(viewService.getCurrentWordIndex()).toBe(11);
+    expect(readingTutorService.getCurrentWordIndex()).toBe(11);
 });

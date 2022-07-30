@@ -9,6 +9,7 @@ export class ViewClient {
 
     constructor(private communicationService: ICommunicationService, private textElement: IHtmlElement, private htmlManager: IHtmlManager) {
         this.communicationService.receiveMessage('set-word-data', (event: any, wordData: WordData[]) => this.setWordData(wordData));
+        this.communicationService.receiveMessage('set-word-correct', (event: any, index: number) => this.setWordCorrect(index));
         this.communicationService.receiveMessage('set-current-word-highlight-index', (event: any, index: number) => this.setCurrentWordHighlightIndex(index));
         this.wordData = [];
         this.highlightIndex = -1;
@@ -16,6 +17,10 @@ export class ViewClient {
 
     nextWord(): void {
         this.communicationService.sendMessage('next-word', '');
+    }
+
+    setWordCorrect(index: number): void {
+        this.htmlManager.addClass('word-' + index, 'correct');
     }
 
     setCurrentWordHighlightIndex(index: number): void {

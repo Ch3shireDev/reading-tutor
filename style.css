@@ -9,3 +9,7 @@
 .word::after{
     content: " ";
 }
+
+.correct{
+    color: green;
+}
