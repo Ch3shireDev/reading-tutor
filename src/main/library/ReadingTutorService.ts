@@ -70,4 +70,11 @@ export class ReadingTutorService implements IReadingTutorService {
         console.log("Received words: " + JSON.stringify(words));
         this.textService.receiveWords(...words);
     }
+
+    getPhrases(): string[] {
+        const words = this.textService.getWordData().map((wordData: WordData) => {
+            return wordData.word;
+        });
+        return Array.from(new Set(words));
+    }
 }

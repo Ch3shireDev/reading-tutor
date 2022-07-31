@@ -5,6 +5,16 @@ import {v1p1beta1 as speech} from "@google-cloud/speech";
 import {IWordStreamingService} from "./IWordStreamingService";
 
 
+class Config {
+    public sampleRateHertz = 16000;
+    public encoding = 'LINEAR16';
+    public languageCode = 'pl-PL';
+    public maxAlternatives = 1;
+    public speechContexts: SpeechContext[] = [];
+    model?: string = undefined;
+
+}
+
 export class WordStreamingService implements IWordStreamingService {
 
     encoding = 'LINEAR16';
@@ -16,23 +26,21 @@ export class WordStreamingService implements IWordStreamingService {
     restartCounter = 0;
     audioInput: any[] = [];
     lastAudioInput: any[] = [];
-    resultEndTime = 0;
-    isFinalEndTime = 0;
-    finalRequestEndTime = 0;
+    resultEndTime = 0.1;
+    isFinalEndTime = 0.1;
+    finalRequestEndTime = 0.1;
     newStream = true;
     bridgingOffset = 0;
     lastTranscriptWasFinal = false;
     client = new speech.SpeechClient();
 
-    config: Config;
-    request: Request;
     audioInputStreamTransform: Writable;
 
     speechCallback: ((stream: SpeechData) => void) | null = null;
+    private maxAlternatives = 10;
+    private phrases: string[] = [];
 
     constructor() {
-        this.config = new Config(this.sampleRateHertz, this.encoding, this.languageCode);
-        this.request = new Request(this.config, true);
         this.audioInputStreamTransform = new Writable({
             write: WordStreamingService.prototype.write.bind(this),
             final: WordStreamingService.prototype.end.bind(this)
@@ -65,10 +73,22 @@ export class WordStreamingService implements IWordStreamingService {
         this.startStream();
     }
 
+    getRequest(): Request {
+        const config = new Config();
+        config.sampleRateHertz = this.sampleRateHertz;
+        config.encoding = this.encoding;
+        config.languageCode = this.languageCode;
+        config.maxAlternatives = this.maxAlternatives;
+        config.speechContexts = this.getSpeechContexts();
+        config.model = "latest_long";
+        const request = new Request(config, true, false);
+        return request;
+    }
+
     startStream(): void {
         this.audioInput = [];
         this.recognizeStream = this.client
-            .streamingRecognize(this.request)
+            .streamingRecognize(this.getRequest())
             .on('error', (err: { code: number }) => {
                 if (err.code === 11) {
                     this.restartStream();
@@ -79,7 +99,7 @@ export class WordStreamingService implements IWordStreamingService {
             .on('data', this.speechCallback);
 
         // Restart stream when streamingLimit expires
-        setTimeout(this.restartStream, this.streamingLimit);
+        setTimeout(WordStreamingService.prototype.restartStream.bind(this), this.streamingLimit);
     }
 
     restartStream(): void {
@@ -146,14 +166,23 @@ export class WordStreamingService implements IWordStreamingService {
         this.recognizeStream?.end();
 
     }
+
+    setContext(phrases: string[]): void {
+        this.phrases = phrases;
+    }
+
+    private getSpeechContexts(): SpeechContext[] {
+        return [new SpeechContext(this.phrases, 20)];
+    }
 }
 
-class Config {
-    constructor(private sampleRateHertz: number, private encoding: string, private languageCode: string) {
+
+class SpeechContext {
+    constructor(private phrases: string[], private boost: number = 1.0) {
     }
 }
 
 class Request {
-    constructor(private config: Config, private interimResults: boolean) {
+    constructor(private config: Config, private interimResults: boolean, private singleUtterance: boolean) {
     }
 }
