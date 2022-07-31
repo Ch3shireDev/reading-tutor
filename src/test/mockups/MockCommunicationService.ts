@@ -1,4 +1,4 @@
-import {ICommunicationService} from "../../main/library/communication-services/ICommunicationService";
+import {ICommunicationService} from "../../main/library/view-services/communication-services/ICommunicationService";
 import {EventEmitter} from "node:events";
 
 export class MockCommunicationService implements ICommunicationService {

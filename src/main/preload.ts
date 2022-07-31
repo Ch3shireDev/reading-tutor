@@ -1,7 +1,7 @@
 import {contextBridge, ipcRenderer} from 'electron'
 import {ViewClient} from "./library/view-services/ViewClient";
-import {HtmlElement} from "./library/elements/HtmlElement";
-import {ClientCommunicationService} from "./library/communication-services/ClientCommunicationService";
+import {HtmlElement} from "./library/view-services/elements/HtmlElement";
+import {ClientCommunicationService} from "./library/view-services/communication-services/ClientCommunicationService";
 import {HtmlManager} from "./library/view-services/HtmlManager";
 
 window.addEventListener("DOMContentLoaded", () => {

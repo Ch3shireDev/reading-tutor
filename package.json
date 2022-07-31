@@ -8,6 +8,7 @@
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
     "start": "npm run build && electron ./dist/main/main.js",
+    "start2": "npm run build && electron ./dist/main/library/word-receivers/InfiniteStreamingService.js",
     "test": "jest"
   },
   "jest": {

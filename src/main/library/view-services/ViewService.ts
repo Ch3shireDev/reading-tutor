@@ -1,6 +1,6 @@
 import {IViewService} from "./IViewService";
-import {ICommunicationService} from "../communication-services/ICommunicationService";
-import {WordData} from "../WordData";
+import {ICommunicationService} from "./communication-services/ICommunicationService";
+import {WordData} from "../models/WordData";
 import {IReadingTutorService} from "../IReadingTutorService";
 
 export class ViewService implements IViewService {

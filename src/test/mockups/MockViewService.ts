@@ -1,5 +1,5 @@
 import {IViewService} from "../../main/library/view-services/IViewService";
-import {WordData} from "../../main/library/WordData";
+import {WordData} from "../../main/library/models/WordData";
 import {IReadingTutorService} from "../../main/library/IReadingTutorService";
 
 export class MockViewService implements IViewService {

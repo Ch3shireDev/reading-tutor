@@ -2,12 +2,11 @@ import {ITextService} from "./text-services/ITextService";
 import {IViewService} from "./view-services/IViewService";
 import {IWordReceiverService} from "./word-receivers/IWordReceiverService";
 import {IReadingTutorService} from "./IReadingTutorService";
-import {WordData} from "./WordData";
+import {WordData} from "./models/WordData";
 
 export class ReadingTutorService implements IReadingTutorService {
 
     _isRunning = false;
-    _currentIndex = 0;
     private textService: ITextService;
     private viewService: IViewService;
     private wordReceiverService: IWordReceiverService;
@@ -28,7 +27,6 @@ export class ReadingTutorService implements IReadingTutorService {
         });
 
         this.wordReceiverService.start();
-
         this.viewService.setText(this.textService.getWordData());
         this.viewService.setCurrentWordHighlightIndex(0);
     }

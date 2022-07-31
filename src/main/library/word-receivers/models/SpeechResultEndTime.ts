@@ -1,4 +1,4 @@
 export interface SpeechResultEndTime {
-    seconds: string;
+    seconds: number;
     nanos: number;
 }

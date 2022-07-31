@@ -2,7 +2,7 @@ import {ViewService} from "../main/library/view-services/ViewService";
 import {MockCommunicationService} from "./mockups/MockCommunicationService";
 import {ViewClient} from "../main/library/view-services/ViewClient";
 import {MockElement} from "./mockups/MockElement";
-import {WordData} from "../main/library/WordData";
+import {WordData} from "../main/library/models/WordData";
 import {MockHtmlManager} from "./mockups/MockHtmlManager";
 import {ReadingTutorService} from "../main/library/ReadingTutorService";
 import {MockWordReceiverService} from "./mockups/MockWordReceiverService";

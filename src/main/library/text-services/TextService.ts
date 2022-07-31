@@ -1,5 +1,5 @@
 import {ITextService} from "./ITextService"
-import {WordData} from "../WordData";
+import {WordData} from "../models/WordData";
 import {IReadingTutorService} from "../IReadingTutorService";
 
 export class TextService implements ITextService {
@@ -158,7 +158,6 @@ export class TextService implements ITextService {
         const cleanTest = this.clean(testWord);
         const cleanCorrect = this.clean(correctWord);
         if (cleanTest === cleanCorrect) return true;
-        if (cleanTest.length > 5 && cleanCorrect.startsWith(cleanTest.substring(0, cleanTest.length - 2))) return true;
-        return false;
+        return cleanTest.length > 5 && cleanCorrect.startsWith(cleanTest.substring(0, cleanTest.length - 2));
     }
 }

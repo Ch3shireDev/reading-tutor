@@ -1,4 +1,4 @@
-import {WordData} from "../WordData";
+import {WordData} from "../models/WordData";
 import {IReadingTutorService} from "../IReadingTutorService";
 
 export interface IViewService {

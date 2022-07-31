@@ -1,6 +1,6 @@
-import {IHtmlElement} from "../elements/IHtmlElement";
-import {WordData} from "../WordData";
-import {ICommunicationService} from "../communication-services/ICommunicationService";
+import {IHtmlElement} from "./elements/IHtmlElement";
+import {WordData} from "../models/WordData";
+import {ICommunicationService} from "./communication-services/ICommunicationService";
 import {IHtmlManager} from "./IHtmlManager";
 
 export class ViewClient {

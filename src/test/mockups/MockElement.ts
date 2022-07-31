@@ -1,4 +1,4 @@
-import {IHtmlElement} from "../../main/library/elements/IHtmlElement";
+import {IHtmlElement} from "../../main/library/view-services/elements/IHtmlElement";
 
 export class MockElement implements IHtmlElement {
     private htmlContent = "";

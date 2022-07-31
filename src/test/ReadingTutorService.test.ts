@@ -2,7 +2,6 @@ import {ReadingTutorService} from '../main/library/ReadingTutorService';
 import {MockViewService} from './mockups/MockViewService'
 import {MockWordReceiverService} from "./mockups/MockWordReceiverService";
 import {TextService} from "../main/library/text-services/TextService";
-import Mock = jest.Mock;
 
 let readingTutorService: ReadingTutorService;
 let textService: TextService;

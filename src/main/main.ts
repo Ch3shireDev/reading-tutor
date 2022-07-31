@@ -1,12 +1,14 @@
 import {app, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
 import {ViewService} from "./library/view-services/ViewService";
-import {HostCommunicationService} from "./library/communication-services/HostCommunicationService";
+import {HostCommunicationService} from "./library/view-services/communication-services/HostCommunicationService";
 import {ReadingTutorService} from "./library/ReadingTutorService";
 import {TextService} from "./library/text-services/TextService";
 import {WordReceiverService} from "./library/word-receivers/WordReceiverService";
-import {AudioCapture} from "./library/audio-capturers/AudioCapture";
-import {SpeechRecognition} from "./library/speech-recognizers/SpeechRecognition";
+import {AudioCapture} from "./library/word-receivers/audio-capturers/AudioCapture";
+import {SpeechRecognition} from "./library/word-receivers/speech-recognizers/SpeechRecognition";
+import {WordProcessorService} from "./library/word-receivers/word-processors/WordProcessorService";
+import {WordStreamingService} from "./library/word-receivers/word-streamers/WordStreamingService";
 
 let mainWindow: BrowserWindow;
 
@@ -27,12 +29,15 @@ function createWindow() {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
 
+
     const eventCommunicationService = new HostCommunicationService(mainWindow.webContents);
     const viewService = new ViewService(eventCommunicationService);
     const textService = new TextService();
-    const audioCapture = new AudioCapture();
-    const speechRecognition = new SpeechRecognition();
-    const wordReceiverService = new WordReceiverService(audioCapture, speechRecognition);
+    const streamingService = new WordStreamingService();
+    // const audioCapture = new AudioCapture();
+    // const speechRecognition = new SpeechRecognition();
+    const wordProcessor = new WordProcessorService();
+    const wordReceiverService = new WordReceiverService(wordProcessor, streamingService);
     const readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
     readingTutorService.setText(`Stoi na stacji lokomotywa,
 Ciężka, ogromna i pot z niej spływa:
