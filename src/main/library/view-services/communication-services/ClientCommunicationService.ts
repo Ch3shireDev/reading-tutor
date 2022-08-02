@@ -1,7 +1,9 @@
 import {ICommunicationService} from "./ICommunicationService";
+import IpcRenderer = Electron.Renderer.IpcRenderer;
+
 export class ClientCommunicationService implements ICommunicationService {
 
-    constructor(private ipcRenderer:any) {
+    constructor(private ipcRenderer: IpcRenderer) {
     }
 
     receiveMessage(name: string, listener: (event: any, ...data: any[]) => void): void {

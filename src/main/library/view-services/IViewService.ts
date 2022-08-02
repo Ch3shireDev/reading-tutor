@@ -12,4 +12,8 @@ export interface IViewService {
     getCurrentWordIndex(): number;
 
     setReadingTutorService(readingTutorService: IReadingTutorService): void;
+
+    setTitle(title: string): void;
+
+    getTitle():string;
 }

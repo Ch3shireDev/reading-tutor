@@ -11,10 +11,6 @@ export class WordReceiverService implements IWordReceiverService {
     private readingTutorService: IReadingTutorService | null = null;
     private _isRunning = false;
 
-    // public constructor(private wordProcessor:IWordProcessorService, private audioCapture: IAudioCapture, private speechRecognition: ISpeechRecognition) {
-    //
-    // }
-
     public constructor(private wordProcessor: IWordProcessorService, private streamingService: IWordStreamingService) {
     }
 

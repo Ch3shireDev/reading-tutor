@@ -9,7 +9,7 @@ export class HostCommunicationService implements ICommunicationService {
         this.webContents = webContents;
     }
 
-    receiveMessage(name: string, listener: (event: any, ...data:any[]) => void): void {
+    receiveMessage(name: string, listener: (event: any, ...data: any[]) => void): void {
         ipcMain.on(name, listener);
     }
 

@@ -6,13 +6,25 @@ import {IHtmlManager} from "./IHtmlManager";
 export class ViewClient {
     private wordData: WordData[];
     private highlightIndex: number;
+    private title = "";
 
     constructor(private communicationService: ICommunicationService, private textElement: IHtmlElement, private htmlManager: IHtmlManager) {
+        this.communicationService.receiveMessage('set-title', (event:any, title: string) => this.setTitle(title));
         this.communicationService.receiveMessage('set-word-data', (event: any, wordData: WordData[]) => this.setWordData(wordData));
         this.communicationService.receiveMessage('set-word-correct', (event: any, index: number) => this.setWordCorrect(index));
         this.communicationService.receiveMessage('set-current-word-highlight-index', (event: any, index: number) => this.setCurrentWordHighlightIndex(index));
         this.wordData = [];
         this.highlightIndex = -1;
+    }
+
+    setTitle(title: string): void {
+        console.log(`set title: ${title}`)
+        this.htmlManager.setContent('title', title);
+        this.title = title;
+    }
+
+    getTitle(): string {
+        return this.title;
     }
 
     nextWord(): void {

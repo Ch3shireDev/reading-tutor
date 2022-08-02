@@ -9,6 +9,10 @@ export class MockHtmlManager implements IHtmlManager {
         this.getSet(id).add(_class);
     }
 
+    setContent(id: string, content: string): void {
+        this.content[id] = content;
+    }
+
     getSet(id: string): Set<string> {
         if (Object.prototype.hasOwnProperty.call(this.classes, id)) {
             return this.classes[id];
@@ -18,5 +22,9 @@ export class MockHtmlManager implements IHtmlManager {
     }
 
     public classes: { [id: string]: Set<string> } = {};
+    public content: { [id: string]: string } = {};
 
+    getContent(id: string):string {
+        return this.content[id];
+    }
 }

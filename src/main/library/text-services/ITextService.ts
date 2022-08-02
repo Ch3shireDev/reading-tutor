@@ -21,5 +21,8 @@ export interface ITextService {
     receiveWords(...strings: string[]): void;
 
     setReadingTutorService(readingTutorService: IReadingTutorService): void;
+
+    getTitle(): string;
+    setTitle(title: string): void;
 }
 

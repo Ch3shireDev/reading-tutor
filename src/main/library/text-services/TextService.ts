@@ -9,12 +9,21 @@ export class TextService implements ITextService {
     private _isEnd: boolean;
     private wordData: WordData[] = [];
     private readingTutorService?: IReadingTutorService;
+    private title = "";
 
     constructor() {
         this.text = "";
         this.words = [];
         this.index = 0;
         this._isEnd = false;
+    }
+
+    setTitle(title: string): void {
+        this.title = title;
+    }
+
+    getTitle(): string {
+        return this.title;
     }
 
     isEnd(): boolean {

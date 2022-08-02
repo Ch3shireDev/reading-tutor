@@ -28,6 +28,7 @@ export class ReadingTutorService implements IReadingTutorService {
 
         this.wordReceiverService.start();
         this.viewService.setText(this.textService.getWordData());
+        this.viewService.setTitle(this.textService.getTitle());
         this.viewService.setCurrentWordHighlightIndex(0);
     }
 
@@ -76,5 +77,9 @@ export class ReadingTutorService implements IReadingTutorService {
             return wordData.word;
         });
         return Array.from(new Set(words));
+    }
+
+    setTitle(testTitle: string): void {
+        this.textService.setTitle(testTitle);
     }
 }

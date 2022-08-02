@@ -34,11 +34,10 @@ function createWindow() {
     const viewService = new ViewService(eventCommunicationService);
     const textService = new TextService();
     const streamingService = new WordStreamingService();
-    // const audioCapture = new AudioCapture();
-    // const speechRecognition = new SpeechRecognition();
     const wordProcessor = new WordProcessorService();
     const wordReceiverService = new WordReceiverService(wordProcessor, streamingService);
     const readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
+    readingTutorService.setTitle("Julian Tuwim - Lokomotywa");
     readingTutorService.setText(`Stoi na stacji lokomotywa,
 Ciężka, ogromna i pot z niej spływa:
 Tłusta oliwa.
@@ -102,6 +101,7 @@ I gnają, i pchają, i pociąg się toczy,
 Bo para te tłoki wciąż tłoczy i tłoczy,
 I koła turkocą, i puka, i stuka to:
 Tak to to, tak to to, tak to to, tak to to!...`);
+
 }
 
 app.on("ready", () => {

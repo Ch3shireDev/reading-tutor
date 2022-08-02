@@ -6,10 +6,14 @@ export class MockViewService implements IViewService {
     private wordData: null;
     private index: number;
     private readingTutorService: IReadingTutorService | null = null;
-
+private title="";
     constructor() {
         this.wordData = null;
         this.index = 0;
+    }
+
+    setTitle(title: string): void {
+        this.title=title;
     }
 
     setWordCorrect(index: number): void {
@@ -30,5 +34,9 @@ export class MockViewService implements IViewService {
 
     setReadingTutorService(readingTutorService: IReadingTutorService): void {
         this.readingTutorService = readingTutorService;
+    }
+
+    getTitle() {
+        return this.title;
     }
 }

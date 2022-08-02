@@ -16,10 +16,10 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
-contextBridge.exposeInMainWorld('electronAPI', {
-    sendClick: (event: any) => ipcRenderer.send('send-click', event),
-    setText: (callback: any) => ipcRenderer.on('set-text', callback),
-    receiveClick: (callback: any) => ipcRenderer.on('receive-click', callback),
-});
-
+//
+// contextBridge.exposeInMainWorld('electronAPI', {
+//     sendClick: (event: any) => ipcRenderer.send('send-click', event),
+//     setText: (callback: any) => ipcRenderer.on('set-text', callback),
+//     receiveClick: (callback: any) => ipcRenderer.on('receive-click', callback),
+// });
+//

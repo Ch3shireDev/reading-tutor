@@ -74,3 +74,16 @@ test("ViewService and ViewClient should highlight correctly read words.", () => 
     expect(viewClient.getCurrentWordHighlightIndex()).toBe(1);
     expect(htmlManager.getSet('word-0').has('correct')).toBeTruthy();
 });
+
+test("ViewService should set title of text properly.", () => {
+    viewService.setTitle("Title");
+    expect(viewClient.getTitle()).toBe("Title");
+    expect(htmlManager.getContent('title')).toBe("Title");
+});
+
+test("ReadingTutorService should be able to set title of text properly.", () => {
+    readingTutorService.setTitle("Title");
+    viewClient.start();
+    expect(viewClient.getTitle()).toBe("Title");
+    expect(htmlManager.getContent('title')).toBe("Title");
+});

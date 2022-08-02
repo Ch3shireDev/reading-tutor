@@ -7,6 +7,7 @@ export class ViewService implements IViewService {
     private _isRunning = false;
     private index = 0;
     private readingTutorService: IReadingTutorService | null = null;
+    private title = "";
 
     constructor(private communicationService: ICommunicationService) {
         this.communicationService.receiveMessage('start', () => this.start());
@@ -24,6 +25,16 @@ export class ViewService implements IViewService {
         this.setCurrentWordHighlightIndex(this.index);
     }
 
+    setText(wordData: WordData[]): void {
+        this.communicationService.sendMessage('set-word-data', wordData);
+    }
+
+    setTitle(title: string): void {
+        console.log(`set title: ${title}`)
+        this.communicationService.sendMessage('set-title', title);
+        this.title = title;
+    }
+
     setWordCorrect(index: number): void {
         this.communicationService.sendMessage('set-word-correct', index);
     }
@@ -37,15 +48,15 @@ export class ViewService implements IViewService {
         return this.index;
     }
 
-    setText(wordData: WordData[]): void {
-        this.communicationService.sendMessage('set-word-data', wordData);
-    }
-
     isRunning(): boolean {
         return this._isRunning;
     }
 
     setReadingTutorService(readingTutorService: IReadingTutorService): void {
         this.readingTutorService = readingTutorService;
+    }
+
+    getTitle(): string {
+        return this.title;
     }
 }
