@@ -24,7 +24,7 @@ export class MockHtmlManager implements IHtmlManager {
     public classes: { [id: string]: Set<string> } = {};
     public content: { [id: string]: string } = {};
 
-    getContent(id: string):string {
+    getContent(id: string): string {
         return this.content[id];
     }
 }

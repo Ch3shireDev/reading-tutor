@@ -1,4 +1,3 @@
-import {IHtmlElement} from "./elements/IHtmlElement";
 import {WordData} from "../models/WordData";
 import {ICommunicationService} from "./communication-services/ICommunicationService";
 import {IHtmlManager} from "./IHtmlManager";
@@ -7,9 +6,11 @@ export class ViewClient {
     private wordData: WordData[];
     private highlightIndex: number;
     private title = "";
+    private author = "";
 
-    constructor(private communicationService: ICommunicationService, private textElement: IHtmlElement, private htmlManager: IHtmlManager) {
-        this.communicationService.receiveMessage('set-title', (event:any, title: string) => this.setTitle(title));
+    constructor(private communicationService: ICommunicationService, private htmlManager: IHtmlManager) {
+        this.communicationService.receiveMessage('set-title', (event: any, title: string) => this.setTitle(title));
+        this.communicationService.receiveMessage('set-author', (event: any, author: string) => this.setAuthor(author));
         this.communicationService.receiveMessage('set-word-data', (event: any, wordData: WordData[]) => this.setWordData(wordData));
         this.communicationService.receiveMessage('set-word-correct', (event: any, index: number) => this.setWordCorrect(index));
         this.communicationService.receiveMessage('set-current-word-highlight-index', (event: any, index: number) => this.setCurrentWordHighlightIndex(index));
@@ -17,8 +18,16 @@ export class ViewClient {
         this.highlightIndex = -1;
     }
 
+    setAuthor(author: string): void {
+        this.author = author;
+        this.htmlManager.setContent('author', author);
+    }
+
+    getAuthor(): string {
+        return this.author;
+    }
+
     setTitle(title: string): void {
-        console.log(`set title: ${title}`)
         this.htmlManager.setContent('title', title);
         this.title = title;
     }
@@ -48,7 +57,7 @@ export class ViewClient {
     setWordData(wordData: WordData[]): void {
         this.wordData = wordData;
         const words = wordData.map(this.getHtmlText);
-        this.textElement.setHtmlContent(words.join(''));
+        this.htmlManager.setContent('text', words.join(''));
     }
 
     getWordData(): WordData[] {

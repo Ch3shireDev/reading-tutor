@@ -15,5 +15,9 @@ export interface IViewService {
 
     setTitle(title: string): void;
 
-    getTitle():string;
+    getTitle(): string;
+
+    setAuthor(author: string): void;
+
+    getAuthor(): string;
 }

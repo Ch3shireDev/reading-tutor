@@ -8,6 +8,7 @@ export class ViewService implements IViewService {
     private index = 0;
     private readingTutorService: IReadingTutorService | null = null;
     private title = "";
+    private author = "";
 
     constructor(private communicationService: ICommunicationService) {
         this.communicationService.receiveMessage('start', () => this.start());
@@ -30,7 +31,6 @@ export class ViewService implements IViewService {
     }
 
     setTitle(title: string): void {
-        console.log(`set title: ${title}`)
         this.communicationService.sendMessage('set-title', title);
         this.title = title;
     }
@@ -58,5 +58,14 @@ export class ViewService implements IViewService {
 
     getTitle(): string {
         return this.title;
+    }
+
+    getAuthor(): string {
+        return this.author;
+    }
+
+    setAuthor(author: string): void {
+        this.author = author;
+        this.communicationService.sendMessage('set-author', author);
     }
 }

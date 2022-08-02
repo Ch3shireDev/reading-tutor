@@ -5,8 +5,6 @@ import {HostCommunicationService} from "./library/view-services/communication-se
 import {ReadingTutorService} from "./library/ReadingTutorService";
 import {TextService} from "./library/text-services/TextService";
 import {WordReceiverService} from "./library/word-receivers/WordReceiverService";
-import {AudioCapture} from "./library/word-receivers/audio-capturers/AudioCapture";
-import {SpeechRecognition} from "./library/word-receivers/speech-recognizers/SpeechRecognition";
 import {WordProcessorService} from "./library/word-receivers/word-processors/WordProcessorService";
 import {WordStreamingService} from "./library/word-receivers/word-streamers/WordStreamingService";
 
@@ -37,7 +35,8 @@ function createWindow() {
     const wordProcessor = new WordProcessorService();
     const wordReceiverService = new WordReceiverService(wordProcessor, streamingService);
     const readingTutorService = new ReadingTutorService(textService, viewService, wordReceiverService);
-    readingTutorService.setTitle("Julian Tuwim - Lokomotywa");
+    readingTutorService.setTitle("Lokomotywa");
+    readingTutorService.setAuthor("Julian Tuwim");
     readingTutorService.setText(`Stoi na stacji lokomotywa,
 Ciężka, ogromna i pot z niej spływa:
 Tłusta oliwa.

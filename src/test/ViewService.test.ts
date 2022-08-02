@@ -1,7 +1,6 @@
 import {ViewService} from "../main/library/view-services/ViewService";
 import {MockCommunicationService} from "./mockups/MockCommunicationService";
 import {ViewClient} from "../main/library/view-services/ViewClient";
-import {MockElement} from "./mockups/MockElement";
 import {WordData} from "../main/library/models/WordData";
 import {MockHtmlManager} from "./mockups/MockHtmlManager";
 import {ReadingTutorService} from "../main/library/ReadingTutorService";
@@ -15,9 +14,8 @@ let htmlManager: MockHtmlManager;
 
 beforeEach(() => {
     htmlManager = new MockHtmlManager();
-    const textElement = new MockElement();
     const communicationService = new MockCommunicationService();
-    viewClient = new ViewClient(communicationService, textElement, htmlManager);
+    viewClient = new ViewClient(communicationService, htmlManager);
     viewService = new ViewService(communicationService);
     const textService: TextService = new TextService();
     const viewReceiver: MockWordReceiverService = new MockWordReceiverService();
@@ -86,4 +84,17 @@ test("ReadingTutorService should be able to set title of text properly.", () => 
     viewClient.start();
     expect(viewClient.getTitle()).toBe("Title");
     expect(htmlManager.getContent('title')).toBe("Title");
+});
+
+test("ViewService should be able to set author of text properly.", () => {
+    viewService.setAuthor("Author");
+    expect(viewClient.getAuthor()).toBe("Author");
+    expect(htmlManager.getContent('author')).toBe("Author");
+});
+
+test("ReadingTutorService should be able to set author of text properly.", () => {
+    readingTutorService.setAuthor("Author");
+    viewClient.start();
+    expect(viewClient.getAuthor()).toBe("Author");
+    expect(htmlManager.getContent('author')).toBe("Author");
 });

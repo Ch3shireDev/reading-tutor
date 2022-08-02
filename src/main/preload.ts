@@ -1,13 +1,12 @@
 import {contextBridge, ipcRenderer} from 'electron'
 import {ViewClient} from "./library/view-services/ViewClient";
-import {HtmlElement} from "./library/view-services/elements/HtmlElement";
 import {ClientCommunicationService} from "./library/view-services/communication-services/ClientCommunicationService";
 import {HtmlManager} from "./library/view-services/HtmlManager";
 
 window.addEventListener("DOMContentLoaded", () => {
 
     const communicationService = new ClientCommunicationService(ipcRenderer);
-    const viewClient = new ViewClient(communicationService, new HtmlElement('text'), new HtmlManager(document));
+    const viewClient = new ViewClient(communicationService, new HtmlManager(document));
     viewClient.start();
     const buttonElement = document.getElementById('button');
     if (buttonElement !== null) {
@@ -16,10 +15,3 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-//
-// contextBridge.exposeInMainWorld('electronAPI', {
-//     sendClick: (event: any) => ipcRenderer.send('send-click', event),
-//     setText: (callback: any) => ipcRenderer.on('set-text', callback),
-//     receiveClick: (callback: any) => ipcRenderer.on('receive-click', callback),
-// });
-//

@@ -24,5 +24,9 @@ export interface ITextService {
 
     getTitle(): string;
     setTitle(title: string): void;
+
+    setAuthor(author: string): void;
+
+    getAuthor(): string;
 }
 

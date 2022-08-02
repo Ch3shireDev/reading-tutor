@@ -10,6 +10,7 @@ export class TextService implements ITextService {
     private wordData: WordData[] = [];
     private readingTutorService?: IReadingTutorService;
     private title = "";
+    private author = "";
 
     constructor() {
         this.text = "";
@@ -168,5 +169,13 @@ export class TextService implements ITextService {
         const cleanCorrect = this.clean(correctWord);
         if (cleanTest === cleanCorrect) return true;
         return cleanTest.length > 5 && cleanCorrect.startsWith(cleanTest.substring(0, cleanTest.length - 2));
+    }
+
+    setAuthor(author: string): void {
+        this.author = author;
+    }
+
+    getAuthor(): string {
+        return this.author;
     }
 }

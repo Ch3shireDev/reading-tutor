@@ -97,5 +97,14 @@ test("There should not be a problem with sending another array of correct words 
 
 test("ReadingTutorService should be able to properly set title in the ViewService.", () => {
     readingTutorService.setTitle("Test title");
+    readingTutorService.start();
+    expect(textService.getTitle()).toBe("Test title");
     expect(viewService.getTitle()).toBe("Test title");
+});
+
+test("ReadingTutorService should be able to set author in the ViewService.", () => {
+    readingTutorService.setAuthor("Test author");
+    readingTutorService.start();
+    expect(textService.getAuthor()).toBe("Test author");
+    expect(viewService.getAuthor()).toBe("Test author");
 });

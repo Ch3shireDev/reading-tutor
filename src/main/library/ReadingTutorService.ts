@@ -29,6 +29,7 @@ export class ReadingTutorService implements IReadingTutorService {
         this.wordReceiverService.start();
         this.viewService.setText(this.textService.getWordData());
         this.viewService.setTitle(this.textService.getTitle());
+        this.viewService.setAuthor(this.textService.getAuthor());
         this.viewService.setCurrentWordHighlightIndex(0);
     }
 
@@ -68,7 +69,6 @@ export class ReadingTutorService implements IReadingTutorService {
     }
 
     receiveWords(...words: string[]): void {
-        console.log("Received words: " + JSON.stringify(words));
         this.textService.receiveWords(...words);
     }
 
@@ -81,5 +81,9 @@ export class ReadingTutorService implements IReadingTutorService {
 
     setTitle(testTitle: string): void {
         this.textService.setTitle(testTitle);
+    }
+
+    setAuthor(author: string) {
+        this.textService.setAuthor(author);
     }
 }
