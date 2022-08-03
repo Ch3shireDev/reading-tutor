@@ -1,20 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
     <meta charset="UTF-8"/>
-    <title>Hello World!</title>
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <title>Nauka czytania</title>
     <script data-main="scripts/main" src="node_modules/require.js/require.js"></script>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
-<body>
-<h1 id="title">-zmień mnie-</h1>
-<h3>Autor: <span id="author"></span></h3>
-<p id="text"></p>
-<button id="button">Wciśnij mnie!</button>
-<script>var exports = {};</script>
-<script type="module" src="./dist/main/renderer.js"></script>
+<body class="d-flex flex-column vh-100">
+<nav class="nav bg-dark flex-shrink-1 justify-content-end" style="height:25px; -webkit-app-region: drag;">
+    <button id="close-button">⨉</button>
+</nav>
+<div class="d-flex flex-fill" style="height: calc(100vh - 25px)">
+    <div class="d-flex flex-column flex-shrink-0 text-white bg-dark px-2">
+        <div class="text-center d-flex text-white mx-auto mt-2">
+            <h5>Nauka czytania</h5>
+        </div>
+        <hr>
+        <ul class="nav flex-column mb-auto px-2" style="font-size: small">
+            <li>Julian Tuwim — Lokomotywa</li>
+            <li>Jan Brzechwa — Kaczka dziwaczka</li>
+            <li>Aleksander Fredro — Koguty</li>
+            <li>Ignacy Krasicki — Mądry i głupi</li>
+        </ul>
+    </div>
+    <div class="px-5 py-3 d-flex flex-column h-100">
+        <div>
+            <h1 id="title">-zmień mnie-</h1>
+            <h3 id="author" class="mb-3"></h3>
+        </div>
+        <div id="text" style="overflow-y: scroll" class="h-100"></div>
+        <script>const exports = {};</script>
+        <script type="module" src="./dist/main/renderer.js"></script>
+    </div>
+</div>
 </body>
 </html>

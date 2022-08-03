@@ -28,7 +28,7 @@ export class WordReceiverService implements IWordReceiverService {
         if (this._isRunning) return;
         this._isRunning = true;
         this.streamingService.setCallback((data: SpeechData) => {
-            fs.writeFile(`./json_data/${Date.now()}.json`, JSON.stringify(data, null, 2), (err) => {console.log(err)});
+            //fs.writeFile(`./json_data/${Date.now()}.json`, JSON.stringify(data, null, 2), (err) => {console.log(err)});
             if (data.results.length === 0) return;
             data.results.forEach((result: SpeechResult) => {
                 //if(result.isFinal)return;

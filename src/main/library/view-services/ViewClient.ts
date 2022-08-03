@@ -81,4 +81,8 @@ export class ViewClient {
     start(): void {
         this.communicationService.sendMessage('start', '');
     }
+
+    close(): void {
+        this.communicationService.sendMessage('close', '');
+    }
 }
